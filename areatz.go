@@ -8,7 +8,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-var areacodeURL = "adddyour url here"
+var areacodeURL = "add your url here"
 
 type AreaCode struct {
 	AreaCode  string `json:"area_code"`
@@ -38,14 +38,26 @@ func GetAreaCodes() ([]*AreaCode, error) {
 		ac := &AreaCode{
 			AreaCode:  tr.Find("td").First().Text(),
 			GMTOffset: stringToInt(tr.Find("td.tz").Text()),
+			DST: stringToBool(tr.Find("td.dst").Text()),
 		}
 		codes = append(codes, ac)
 	}
-
+	fmt.Println(codes[0])
 	return codes, err
 }
 
 func stringToInt(val string) int {
 	x, _ := strconv.Atoi(val)
 	return x
+}
+
+func stringToBool(val string) bool {
+	if val == "Y" {
+		return true
+	}
+	return false
+}
+
+func main() {
+	fmt.Printf(("Test string\n"))
 }

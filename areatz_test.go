@@ -26,9 +26,9 @@ func TestParser(t *testing.T) {
 	assert.True(len(codes) > 0)
 	assert.Equal(codes[0].AreaCode, "201")
 	assert.Equal(codes[0].GMTOffset, -5)
+	assert.Equal(codes[0].DST, true)
 
 }
-
 const testHTML = `
 <!DOCTYPE html>
 
@@ -40,13 +40,13 @@ const testHTML = `
     <!-- added here to prevent flicker when late-loading (moved up from lower js section)-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         var pathname = window.location.pathname;
         if (pathname != "/" && pathname != "/Default.aspx") {
             document.write("<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js' type='text/javascript'><\/script>"); //load jquery-ui (but not on homepage)
-            document.write("<link href='../../content/metro/css/jquery-ui-min.css' rel='stylesheet' type='text/css' \/>"); //todo: replace with bootstrap at some point (currently used by dialogs e.g. registerpayment and possibly elsewhere) 
+            document.write("<link href='../../content/metro/css/jquery-ui-min.css' rel='stylesheet' type='text/css' \/>"); //todo: replace with bootstrap at some point (currently used by dialogs e.g. registerpayment and possibly elsewhere)
         }
-    </script> 
+    </script>
     <style>
         .logo {padding: 10px 70px 10px 0;}
         #loginlink {color:#fff; font-size:11pt; }
@@ -54,8 +54,8 @@ const testHTML = `
         .tagline{color:#798ea0; font-size:12.5pt; margin:-12px 0 10px 0;}
         .shoutout { color:#fff; text-align:right; width:800px; float:right; margin:-40px 20px 0 0; font-style:italic;}
     </style>
-   
-    
+
+
     <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css' />
     <style>
         th {padding:5px }
@@ -66,11 +66,11 @@ const testHTML = `
         .options {width:100%; text-align:right; }
         .rdoCntry label{padding:0 15px 0 0;}
     </style>
-  
-    
+
+
 </head>
 <body>
-    
+
     <form method="post" action="./areacodetimezone" id="aspnetForm">
 
 
@@ -91,7 +91,7 @@ const testHTML = `
                     </div>
                     <div class="visible-xs hidden-xm hidden-md hidden-lg"><a href="./" style="color:#fff;">GreatData.com</a></div>
                 </div>
-                
+
                 <br />
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -117,14 +117,14 @@ const testHTML = `
                             <li><a id="ctl00_hypAddContacts" href="Secure/ContactList.aspx">Manage Contacts</a></li>
 					        <li><a id="ctl00_hypActSubsc" href="Secure/ActiveSubscription.aspx">View Subscriptions</a></li>
                             <li><a id="ctl00_hypLogin" href="Login.aspx?type=manage">Login Admin</a></li>
-                            <li><a id="ctl00_hypOrdHist" href="Secure/OrderHistory.aspx">Order History</a></li> 
+                            <li><a id="ctl00_hypOrdHist" href="Secure/OrderHistory.aspx">Order History</a></li>
                           </ul>
                         </li>
 
                         <li><a href="Cart.aspx" title="cart / checkout"><img src="content/images/cart_wh.png" alt="cart data" width="22" height="14" /></a></li>
                     </ul>
 
-                    
+
                     <ul class="nav navbar-nav pull-right">
                       <li class="dropdown pull-right">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -132,12 +132,12 @@ const testHTML = `
                                 <span id="ctl00_loginInvite">Sign In</span> <!-- hidden after logged in -->
 		                         <span class="caret"></span>
 	                        </div>
-                        </a> 
+                        </a>
 
                         <div class="dropdown-menu" style="padding:15px;">
                             <a id="ctl00_loginSatus" href="javascript:__doPostBack(&#39;ctl00$loginSatus$ctl02&#39;,&#39;&#39;)">Sign In</a>
                             <br />
-                            
+
                                     <div class="form-group">
                                         <label for="UserName">Username:</label> &nbsp;
                                         <input name="ctl00$mnuLogin$UserName" type="text" id="ctl00_mnuLogin_UserName" class="form-control" />
@@ -146,19 +146,19 @@ const testHTML = `
                                         <label for="Password">Password:</label> &nbsp;
                                         <input name="ctl00$mnuLogin$Password" type="password" id="ctl00_mnuLogin_Password" class="form-control" />
                                     </div>
-                
+
                                     <input type="submit" name="ctl00$mnuLogin$LoginButton" value="Log In" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$mnuLogin$LoginButton&quot;, &quot;&quot;, true, &quot;LoginUserValidationGroup&quot;, &quot;&quot;, false, false))" id="ctl00_mnuLogin_LoginButton" class="btn btn-primary btn-lg btn-block" />
                                     <br />
-                                    
-                            
 
-                          
+
+
+
                         </div>
                       </li>
                     </ul>
-                    
 
-                </div> 
+
+                </div>
 
                 <div class="shoutout">
                     <div id="quoteslide" class="carousel slide hidden-xs hidden-sm hidden-md">
@@ -168,23 +168,23 @@ const testHTML = `
 
 
 
-            </div> 
-        </div> 
-    
-	  
+            </div>
+        </div>
+
+
 
 	    <div id="mastercontent" class="container body-content">
-		    
+
     <h1>Area Code Time Zone Chart</h1>
     <div class="options">
         <a class="hidden-xs" href="../pdf/ac-tz.pdf">Printable Area Code Time Zone Chart (pdf)</a><br />
-        
+
         <span id="ctl00_cph_body_rdoCountry" class="rdoCntry"><input id="ctl00_cph_body_rdoCountry_0" type="radio" name="ctl00$cph_body$rdoCountry" value="USA" checked="checked" /><label for="ctl00_cph_body_rdoCountry_0">USA</label><input id="ctl00_cph_body_rdoCountry_1" type="radio" name="ctl00$cph_body$rdoCountry" value="CAN" onclick="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$cph_body$rdoCountry$1\&#39;,\&#39;\&#39;)&#39;, 0)" /><label for="ctl00_cph_body_rdoCountry_1">Canada</label></span>
     </div>
     <input name="ctl00$cph_body$hidClientTimeOffset" type="hidden" id="ctl00_cph_body_hidClientTimeOffset" />
     <input name="ctl00$cph_body$hidClientTime" type="hidden" id="ctl00_cph_body_hidClientTime" />
 
-    
+
 
     <div>
 	<table class="gvGrid" cellspacing="0" rules="all" border="1" id="ctl00_cph_body_gvTZAC">
@@ -847,8 +847,8 @@ const testHTML = `
 </div>
 
 	    </div>
-	
-        <br />   
+
+        <br />
         <footer class="jumbotron" style="padding:0;">
             <div style="background-color:#d2d2d2; padding-top:10px;">
                 <div class="container"><p>&copy; 1994-2017  GreatData.com</p></div>
@@ -856,7 +856,7 @@ const testHTML = `
             <div class="container">
                 <div class="row">
                     <div class="col-md-10">
-                        <p><a href="content/resourcefiles/privacy.txt" id="ctl00_A3" target="_blank">Privacy Policy</a></p> 
+                        <p><a href="content/resourcefiles/privacy.txt" id="ctl00_A3" target="_blank">Privacy Policy</a></p>
                         <p><a href="ContactUs.aspx">Contact</a> </p>
                         <p><a href="pdf/LicenseAgreement-Simplified.pdf" id="ctl00_A2" target="_blank">Software/Data License</a> </p>
                         <p>ZIP Code Database</p>
@@ -869,12 +869,12 @@ const testHTML = `
             <!-- &nbsp; - &nbsp; <span id="ctl00_lblPageName"></span> -->
        </footer>
 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
-	    
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
 
-            //calc time 1 sec after load, then 2 sec, then 3 sec... then end. The reason for the delay is the func sometimes beats the grid data its relying on when loading. 
+            //calc time 1 sec after load, then 2 sec, then 3 sec... then end. The reason for the delay is the func sometimes beats the grid data its relying on when loading.
             AddTimeToPage();
             setTimeout(AddTimeToPage, 500);
             setTimeout(AddTimeToPage, 1000);
@@ -900,15 +900,15 @@ const testHTML = `
                 var dstcell = $(this).closest('tr').find('.dst');
                 timecell.html(calcTime(tzcell.html(), dstcell.html() ));
             });
-        } 
+        }
 
 
         function calcTime(offset, dstflag) {
             var d = new Date(); // create Date object for current location
-            var utc; 
+            var utc;
 
             if (dstflag == 'N') { //does not observe dst (exa. much of arizona)
-                utc = d.getTime() + (d.getTimezoneOffset() * 60000); 
+                utc = d.getTime() + (d.getTimezoneOffset() * 60000);
             }
             else {
                 utc = d.getTime() + (AdjustForDST(d.getTimezoneOffset()) * 60000); // 1) convert to msec 2)add local time zone offset 3) adjust for Daylight Savings Time 4)get UTC time in msec
@@ -922,7 +922,7 @@ const testHTML = `
             var ampm = nd.getHours() > 11 ? "PM" : "AM";
             return hours + ":" + min + " " + ampm;  // return newdate/time as a string
         }
-        
+
         function AdjustForDST(offset) {
             //see http://forums.asp.net/t/1963152.aspx?Javascript+local+time+with+daylight+saving+considered+in+
             var d = new Date();
@@ -939,12 +939,12 @@ const testHTML = `
 
 
 
-    
+
     </script>
 
 
 
-        
+
         <script>
             //prevent closing signin box when user clicks mouse inside usr/pwd textboxes
             $('#ctl00_mnuLogin_UserName').click(function (e) {
@@ -967,10 +967,10 @@ const testHTML = `
         </script>
 
         <script>
-            var quotes = [ 
-                " “It’s always been a pleasure working with GreatData.” – American Express", 
-                " “Your professionalism and attention to detail should be the benchmark for all companies...” – Kinkos", 
-                " “I find much value in your data ...” – General Electric ", 
+            var quotes = [
+                " “It’s always been a pleasure working with GreatData.” – American Express",
+                " “Your professionalism and attention to detail should be the benchmark for all companies...” – Kinkos",
+                " “I find much value in your data ...” – General Electric ",
                 " “Your company has always been very responsive to our inquiries for service and help. ” – Owens Corning",
                 " “I have been using your data well over 12 years now. I love it ...” – GE Capital",
                 " “Very accurate data.” – Ford&nbsp;",
@@ -990,7 +990,7 @@ const testHTML = `
 
             $('#quoteslide').carousel({
                 interval: 6000
-                
+
             })
 
             function shuffle(array) {
@@ -1012,12 +1012,12 @@ const testHTML = `
                 return array;
             }
 
-        </script>  
-	
-         
+        </script>
+
+
 
     </form>
 
-	
+
 </body>
 </html>`
