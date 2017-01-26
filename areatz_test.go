@@ -1,4 +1,4 @@
-package areatz
+package main
 
 import (
 	"net/http"
