@@ -1,4 +1,8 @@
-package main
+package areatz
+
+// Keep as package
+// Time will be a method based on the info received
+// JSON output (function to convert to JSON)
 
 import (
 	"errors"
@@ -16,7 +20,7 @@ type AreaCode struct {
 	DST       bool   `json:"dst"`
 	State     string `json:"state"`
 	Region    string `json:"region"`
-	Time			string `json:"time"`
+	Time      string `json:"time"`
 }
 
 func GetAreaCodes() ([]*AreaCode, error) {
@@ -40,10 +44,10 @@ func GetAreaCodes() ([]*AreaCode, error) {
 		ac := &AreaCode{
 			AreaCode:  tr.Find("td").First().Text(),
 			GMTOffset: stringToInt(tr.Find("td.tz").Text()),
-			DST: stringToBool(tr.Find("td.dst").Text()),
-			State: tr.Find("td.time").Next().Next().Text(),
-			Region: tr.Find("td").Last().Text(),
-			Time: tr.Find("td.time").Text(),
+			DST:       stringToBool(tr.Find("td.dst").Text()),
+			State:     tr.Find("td.time").Next().Next().Text(),
+			Region:    tr.Find("td").Last().Text(),
+			Time:      tr.Find("td.time").Text(),
 		}
 		codes = append(codes, ac)
 	}
@@ -70,28 +74,8 @@ func stringToInt(val string) int {
 }
 
 func stringToBool(val string) bool {
-	x := false
 	if val == "Y" {
-		x = true
+		return true
 	}
-	return x
-}
-
-// Gets data from website and prints it out to terminal
-func main() {
-	codes, err := GetAreaCodes()
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for i := 0; i < len(codes); i++ {
-		fmt.Println(
-			"AreaCode:", codes[i].AreaCode,
-			"GMTOffset:", codes[i].GMTOffset,
-			"DST:", codes[i].DST,
-			"State:", codes[i].State,
-			"Region:", codes[i].Region,
-		)
-	}
+	return false
 }

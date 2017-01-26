@@ -1,4 +1,4 @@
-package main
+package areatz
 
 import (
 	"net/http"
@@ -31,6 +31,7 @@ func TestParser(t *testing.T) {
 	assert.Equal(codes[0].Region, "Hackensack, Jersey City, Union City, Rutherford, Leonia  ")
 
 }
+
 const testHTML = `
 <!DOCTYPE html>
 
