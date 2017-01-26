@@ -24,12 +24,13 @@ func TestParser(t *testing.T) {
 	assert.NoError(err, "GetAreaCodes error")
 	assert.NotNil(codes, "codes should not be nil")
 	assert.True(len(codes) > 0)
-	assert.Equal(codes[0].AreaCode, "201")
-	assert.Equal(codes[0].GMTOffset, -5)
-	assert.Equal(codes[0].DST, true)
-	assert.Equal(codes[0].State, "New Jersey")
-	assert.Equal(codes[0].Region, "Hackensack, Jersey City, Union City, Rutherford, Leonia  ")
+	assert.Equal("201", codes[0].AreaCode)
+	assert.Equal(-5, codes[0].GMTOffset)
+	assert.Equal(true, codes[0].DST)
+	assert.Equal("New Jersey", codes[0].State)
+	assert.Equal("Hackensack, Jersey City, Union City, Rutherford, Leonia  ", codes[0].Region)
 
+	assert.Equal("test", codes[0])
 }
 
 const testHTML = `

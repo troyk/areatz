@@ -1,10 +1,14 @@
 package areatz
 
-// Keep as package
-// Time will be a method based on the info received
-// JSON output (function to convert to JSON)
+// Make package again [x]
+// Time will be a method based on the info received []
+// JSON output (function to convert to JSON) []
+//	 - Better to just use AreaCodes to return JSON or make function for it?
+// Write tests to ensure JSON output []
+// MAKE SURE TO RETURN JSON OUTPUT []
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
@@ -20,7 +24,6 @@ type AreaCode struct {
 	DST       bool   `json:"dst"`
 	State     string `json:"state"`
 	Region    string `json:"region"`
-	Time      string `json:"time"`
 }
 
 func GetAreaCodes() ([]*AreaCode, error) {
@@ -47,25 +50,23 @@ func GetAreaCodes() ([]*AreaCode, error) {
 			DST:       stringToBool(tr.Find("td.dst").Text()),
 			State:     tr.Find("td.time").Next().Next().Text(),
 			Region:    tr.Find("td").Last().Text(),
-			Time:      tr.Find("td.time").Text(),
 		}
 		codes = append(codes, ac)
 	}
 
-	// FOR TESTING ONLY; DELETE WHEN DONE
-	for i := 0; i < len(codes); i++ {
-		fmt.Println(
-			"AreaCode:", codes[i].AreaCode,
-			"GMTOffset:", codes[i].GMTOffset,
-			"DST:", codes[i].DST,
-			"State:", codes[i].State,
-			"Region:", codes[i].Region,
-			"Time:", codes[i].Time,
-		)
-	}
-	// END OF TESTING BLOCK
-
 	return codes, err
+}
+
+func AreaCodesToJSON() {
+	codes, err := GetAreaCodes()
+
+	for i := 0; i < len(codes); i++ {
+		json_output, err := json.Marshal(codes[i])
+		if err != nil {
+			return nil, err
+		}
+		fmt.Println(string(json_output))
+	}
 }
 
 func stringToInt(val string) int {
