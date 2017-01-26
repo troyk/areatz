@@ -39,10 +39,12 @@ func GetAreaCodes() ([]*AreaCode, error) {
 			AreaCode:  tr.Find("td").First().Text(),
 			GMTOffset: stringToInt(tr.Find("td.tz").Text()),
 			DST: stringToBool(tr.Find("td.dst").Text()),
+			State: tr.Find("td.time").Next().Next().Text(),
+			Region: tr.Find("td").Last().Text(),
 		}
 		codes = append(codes, ac)
 	}
-	fmt.Println(codes[0])
+
 	return codes, err
 }
 

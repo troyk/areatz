@@ -27,6 +27,8 @@ func TestParser(t *testing.T) {
 	assert.Equal(codes[0].AreaCode, "201")
 	assert.Equal(codes[0].GMTOffset, -5)
 	assert.Equal(codes[0].DST, true)
+	assert.Equal(codes[0].State, "New Jersey")
+	assert.Equal(codes[0].Region, "Hackensack, Jersey City, Union City, Rutherford, Leonia  ")
 
 }
 const testHTML = `
