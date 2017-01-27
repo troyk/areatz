@@ -21,6 +21,7 @@ func TestParser(t *testing.T) {
 
 	codes, err := GetAreaCodes()
 	json_output, err := AreaCodesToJSON()
+
 	// Tests for GetAreaCodes
 	assert.NoError(err, "GetAreaCodes error")
 	assert.NotNil(codes, "codes should not be nil")
@@ -29,7 +30,7 @@ func TestParser(t *testing.T) {
 	assert.Equal(-5, codes[0].GMTOffset)
 	assert.Equal(true, codes[0].DST)
 	assert.Equal("New Jersey", codes[0].State)
-	// assert.Equal("Hackensack, Jersey City, Union City, Rutherford, Leonia  ", codes[0].Region)
+	assert.Equal("Hackensack, Jersey City, Union City, Rutherford, Leonia  ", codes[0].Region)
 	// Tests for AreaCodesToJSON
 	assert.NotNil(json_output, "json_output should not be nil")
 	assert.True(len(json_output) > 0)
