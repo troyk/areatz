@@ -57,16 +57,19 @@ func GetAreaCodes() ([]*AreaCode, error) {
 	return codes, err
 }
 
-func AreaCodesToJSON() {
+func AreaCodesToJSON() ([]byte, error) {
 	codes, err := GetAreaCodes()
+	json_output := make([]byte, 0)
 
 	for i := 0; i < len(codes); i++ {
-		json_output, err := json.Marshal(codes[i])
+		code, err := json.Marshal(codes[i])
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println(string(json_output))
+		json_output = append(json_output, code...)
 	}
+
+	return json_output, err
 }
 
 func stringToInt(val string) int {

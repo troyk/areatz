@@ -20,6 +20,7 @@ func TestParser(t *testing.T) {
 	assert := assert.New(t)
 
 	codes, err := GetAreaCodes()
+	json_output, err := AreaCodesToJSON()
 
 	assert.NoError(err, "GetAreaCodes error")
 	assert.NotNil(codes, "codes should not be nil")
@@ -30,7 +31,7 @@ func TestParser(t *testing.T) {
 	assert.Equal("New Jersey", codes[0].State)
 	assert.Equal("Hackensack, Jersey City, Union City, Rutherford, Leonia  ", codes[0].Region)
 
-	assert.Equal("test", codes[0])
+	assert.Equal("test", json_output[0])
 }
 
 const testHTML = `
