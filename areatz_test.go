@@ -22,6 +22,8 @@ func TestParser(t *testing.T) {
 	codes, err := GetAreaCodes()
 	json_output, err := AreaCodesToJSON()
 
+	getTime()
+
 	// Tests for GetAreaCodes
 	assert.NoError(err, "GetAreaCodes error")
 	assert.NotNil(codes, "codes should not be nil")

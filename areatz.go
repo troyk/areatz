@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -78,4 +79,16 @@ func stringToBool(val string) bool {
 		return true
 	}
 	return false
+}
+
+func getTime() {
+	t := time.Now()
+	fmt.Println(t.Location(), t)
+	fmt.Println("Location:", t.Location(), ":Time:", t)
+	utc, err := time.LoadLocation("America/New_York")
+	if err != nil {
+		fmt.Println("err: ", err.Error())
+	}
+	fmt.Println("Location:", utc, ":Time:", t.In(utc))
+	fmt.Println(t.Format("Mon Jan _2 15:04:05 2006"))
 }
