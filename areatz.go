@@ -2,10 +2,6 @@ package areatz
 
 // Make package again [x]
 // Time will be a method based on the info received []
-// JSON output (function to convert to JSON) []
-//	 - Better to just use AreaCodes to return JSON or make function for it?
-// Write tests to ensure JSON output []
-// MAKE SURE TO RETURN JSON OUTPUT []
 
 import (
 	"encoding/json"
