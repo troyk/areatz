@@ -1,8 +1,5 @@
 package areatz
 
-// Make package again [x]
-// Time will be a method based on the info received []
-
 import (
 	"encoding/json"
 	"errors"
@@ -16,11 +13,12 @@ import (
 var areacodeURL = "add your url here"
 
 type AreaCode struct {
-	AreaCode  string `json:"area_code"`
-	GMTOffset int    `json:"gmt_offset"`
-	DST       bool   `json:"dst"`
-	State     string `json:"state"`
-	Region    string `json:"region"`
+	AreaCode  string    `json:"area_code"`
+	GMTOffset int       `json:"gmt_offset"`
+	DST       bool      `json:"dst"`
+	State     string    `json:"state"`
+	Region    string    `json:"region"`
+	Time      time.Time `json:"time"`
 }
 
 func GetAreaCodes() ([]*AreaCode, error) {
@@ -48,6 +46,10 @@ func GetAreaCodes() ([]*AreaCode, error) {
 			State:     tr.Find("td.time").Next().Next().Text(),
 			Region:    tr.Find("td").Last().Text(),
 		}
+		ac.Time = getTime(ac.GMTOffset)
+		// Uncomment lines below for visual of time and formatting
+		// fmt.Println(ac.State, ac.Time.Format("3:04PM"))
+		// fmt.Println(ac.Time.Format("Mon Jan _2 15:04:05 2006"))
 		codes = append(codes, ac)
 	}
 
@@ -81,14 +83,8 @@ func stringToBool(val string) bool {
 	return false
 }
 
-func getTime() {
-	t := time.Now()
-	fmt.Println(t.Location(), t)
-	fmt.Println("Location:", t.Location(), ":Time:", t)
-	utc, err := time.LoadLocation("America/New_York")
-	if err != nil {
-		fmt.Println("err: ", err.Error())
-	}
-	fmt.Println("Location:", utc, ":Time:", t.In(utc))
-	fmt.Println(t.Format("Mon Jan _2 15:04:05 2006"))
+// Calculates time for AreaCode struct using UTC and the GMT offset
+func getTime(gmtOffset int) time.Time {
+	t := time.Now().UTC().Add(time.Duration(gmtOffset) * time.Hour)
+	return t
 }
