@@ -51,8 +51,8 @@ func GetAreaCodes() ([]*AreaCode, error) {
 			Region:    tr.Find("td").Last().Text(),
 		}
 		// Uncomment lines below for visual of time and formatting
-		// fmt.Println(ac.State, AreaCode.Time(*ac).Format("3:04PM"))
-		// fmt.Println(ac.State, AreaCode.Time(*ac).Format("Mon Jan _2 15:04:05 2006"))
+		fmt.Println(ac.State, ac.Time().Format("3:04PM"))
+		fmt.Println(ac.State, ac.Time().Format("Mon Jan _2 15:04:05 2006"))
 		codes = append(codes, ac)
 	}
 
