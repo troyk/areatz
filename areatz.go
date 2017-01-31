@@ -13,12 +13,16 @@ import (
 var areacodeURL = "add your url here"
 
 type AreaCode struct {
-	AreaCode  string    `json:"area_code"`
-	GMTOffset int       `json:"gmt_offset"`
-	DST       bool      `json:"dst"`
-	State     string    `json:"state"`
-	Region    string    `json:"region"`
-	Time      time.Time `json:"time"`
+	AreaCode  string `json:"area_code"`
+	GMTOffset int    `json:"gmt_offset"`
+	DST       bool   `json:"dst"`
+	State     string `json:"state"`
+	Region    string `json:"region"`
+}
+
+// Time calculates time for AreaCode struct using UTC and the GMT offset
+func (ac AreaCode) Time() time.Time {
+	return time.Now().UTC().Add(time.Duration(ac.GMTOffset) * time.Hour)
 }
 
 func GetAreaCodes() ([]*AreaCode, error) {
@@ -46,10 +50,9 @@ func GetAreaCodes() ([]*AreaCode, error) {
 			State:     tr.Find("td.time").Next().Next().Text(),
 			Region:    tr.Find("td").Last().Text(),
 		}
-		ac.Time = getTime(ac.GMTOffset)
 		// Uncomment lines below for visual of time and formatting
-		// fmt.Println(ac.State, ac.Time.Format("3:04PM"))
-		// fmt.Println(ac.Time.Format("Mon Jan _2 15:04:05 2006"))
+		// fmt.Println(ac.State, AreaCode.Time(*ac).Format("3:04PM"))
+		// fmt.Println(ac.State, AreaCode.Time(*ac).Format("Mon Jan _2 15:04:05 2006"))
 		codes = append(codes, ac)
 	}
 
@@ -81,10 +84,4 @@ func stringToBool(val string) bool {
 		return true
 	}
 	return false
-}
-
-// Calculates time for AreaCode struct using UTC and the GMT offset
-func getTime(gmtOffset int) time.Time {
-	t := time.Now().UTC().Add(time.Duration(gmtOffset) * time.Hour)
-	return t
 }
