@@ -61,6 +61,9 @@ func GetAreaCodes() ([]*AreaCode, error) {
 
 func AreaCodesToJSON() ([]byte, error) {
 	codes, err := GetAreaCodes()
+	if err != nil {
+		return nil, err
+	}
 	json_output := make([]byte, 0)
 
 	for i := 0; i < len(codes); i++ {
